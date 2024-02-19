@@ -298,18 +298,23 @@ Bem no final do seu arquivo `App.js`, a declaração `export default App` faz co
 Vamos abrir `src/index.js`, porque é onde nosso componente `App` está sendo utilizado. Esse arquivo é o ponto de entrada para nosso aplicativo, e inicialmente parece-se assim:
 
 ```jsx
-import React from "react";
-import ReactDOM from "react-dom";
-import "./index.css";
-import App from "./App";
-import * as serviceWorker from "./serviceWorker";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
 
-ReactDOM.render(<App />, document.getElementById("root"));
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
 ```
 
 Assim como em `App.js`, o arquivo começa importando todos os módulos JS (JavaScript) e outros recursos que precisa executar. `src/index.css` contém os estilos globais (CSS) que são aplicados em todo nosso aplicativo. Nós podemos também ver nosso componente `App` importado aqui; este é disponibilizado para ser importado graças à declaração de `export` no final do nosso arquivo `App.js`.
@@ -393,7 +398,12 @@ Uma **prop** é qualquer dado passado para um componente React. _Props_ são esc
 Adicione a _prop_ `subject` na invocação do componente `<App/>`, com o valor de `Clarice`. Quando você terminar, seu código deve estar assim:
 
 ```jsx
-ReactDOM.render(<App subject="Clarice" />, document.getElementById("root"));
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <App subject="Clarice" />
+  </React.StrictMode>
+);
 ```
 
 De volta ao `App.js`, vamos revisitar a própria função App, que é lida da seuginte forma (com a declaração de `return` encurtada, a fim de ser breve.)
@@ -402,7 +412,12 @@ De volta ao `App.js`, vamos revisitar a própria função App, que é lida da se
 function App() {
   const subject = "React";
   return (
-    // return statement
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>Hello {subject}</p>
+      </header>
+    </div>
   );
 }
 ```
@@ -419,21 +434,19 @@ function App(props) {
 }
 ```
 
-Salve seu arquivo e dê uma olhada no console do navegador. Você deve ver algo assim nos _logs_:
-
-```js
-Object { subject: "Clarice" }
-```
-
 A propriedade `subjet` deste objeto corresponde à _prop_ `subject` que nós adicionamos à nossa chamada do componente `<App />`, e a _string_ `Clarice` corresponde ao seu valor. _props_ de coponentes no React são sempre coletadas em objetos neste mesmo estilo.
 
 Agora que `subjet` é uma de nossas _props_, vamos utilizá-la em `App.js`. Mude a constante `subject` para que, em vez de ler a string que diz `React`, você está lendo o valor de `props.subject`. Você também pode deletar o `console.log()`, se você quiser.
 
 ```js
 function App(props) {
-  const subject = props.subject;
   return (
-    // return statement
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>Hello {props.subject}</p>
+      </header>
+    </div>
   );
 }
 ```
